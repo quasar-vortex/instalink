@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind variants;
+@tailwind components;
+
+
+.container {
+    @apply max-w-7xl px-4 mx-auto;
+}
+
+.btn {
+    @apply px-4 py-2 rounded-md duration-200 outline-none text-gray-100;
+}
+.btn-blue {
+    @apply bg-blue-600 hover:bg-blue-700;
+}.btn-indigo {
+    @apply bg-indigo-600 hover:bg-indigo-700;
+}

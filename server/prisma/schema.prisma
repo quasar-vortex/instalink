@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum FileType {
+  IMAGE
+  VIDEO
+  AUDIO
+}
+
+model File {
+  id           String    @id @default(uuid())
+  originalName String    @db.VarChar(100)
+  size         Int
+  fileType     FileType
+  dateUploaded DateTime  @default(now())
+  url          String    @unique @db.VarChar(200)
+  uploader     User      @relation(name: "file-upload", fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  User         User[]    @relation(name: "avatar-file")
+  Message      Message[]
+}
+
+model User {
+  id             String               @id @default(uuid())
+  firstName      String               @db.VarChar(20)
+  lastName       String               @db.VarChar(20)
+  email          String               @unique @db.VarChar(50)
+  userName       String               @unique @db.VarChar(16)
+  passwordHash   String               @db.Text
+  bio            String?              @db.VarChar(200)
+  avatarFile     File?                @relation(name: "avatar-file", fields: [avatarFileId], references: [id], onDelete: Cascade)
+  Uploads        File[]               @relation(name: "file-upload")
+  avatarFileId   String?
+  refreshToken   String?              @db.Text
+  registeredDate DateTime             @default(now())
+  lastLoginDate  DateTime             @default(now())
+  Room           Room[]
+  FriendSender   Friend[]             @relation(name: "friend-sender")
+  FriendReceiver Friend[]             @relation(name: "friend-receiver")
+  Participant    Participant[]
+  MessageSender  Message[]            @relation(name: "message-sender")
+  Conversation1  DirectConversation[] @relation(name: "conversation-participant1")
+  Conversation2  DirectConversation[] @relation(name: "conversation-participant2")
+}
+
+model Friend {
+  sender                      User      @relation(name: "friend-sender", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId                    String
+  receiver                    User      @relation(name: "friend-receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  receiverId                  String
+  isActive                    Boolean
+  dateSent                    DateTime  @default(now())
+  dateResponded               DateTime?
+  isSenderBlockedFromReceiver Boolean   @default(false)
+  isReceiverBlockeFromSender  Boolean   @default(false)
+
+  @@id([senderId, receiverId])
+}
+
+model Room {
+  id          String        @id @default(uuid())
+  isActive    Boolean       @default(true)
+  title       String        @unique @db.VarChar(100)
+  description String?       @db.VarChar(200)
+  dateCreated DateTime      @default(now())
+  owner       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  Participant Participant[]
+  Message     Message[]
+}
+
+model Participant {
+  id         String    @id @default(uuid())
+  room       Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  dateJoined DateTime  @default(now())
+  dateLeft   DateTime?
+  isBanned   Boolean   @default(false)
+
+  @@unique([roomId, userId])
+}
+
+model Message {
+  id             String              @id @default(uuid())
+  sender         User                @relation(name: "message-sender", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId       String
+  room           Room?               @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId         String?
+  conversationId String?
+  conversation   DirectConversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  textContent    String?             @db.VarChar(500)
+  file           File?               @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  fileId         String?
+  dateSent       DateTime            @default(now())
+  dateUpdated    DateTime?
+}
+
+model DirectConversation {
+  id                            String    @id @default(uuid())
+  participant1                  User      @relation(name: "conversation-participant1", fields: [participantId], references: [id], onDelete: Cascade)
+  participantId                 String
+  participantTwo                User      @relation(name: "conversation-participant2", fields: [participant2Id], references: [id], onDelete: Cascade)
+  participant2Id                String
+  participant1MutedConversation Boolean   @default(false)
+  participant2MutedConversation Boolean   @default(false)
+  Message                       Message[]
+}
