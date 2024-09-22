@@ -12,7 +12,7 @@ export type User = {
   userName: string;
   email: string;
   bio: string;
-  avatarFileId: string;
+  avatarFileId: string | null;
   registeredDate: string;
   lastLoginDate: string;
 };

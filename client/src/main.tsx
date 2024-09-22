@@ -17,6 +17,7 @@ import Register from "./pages/Register";
 import DashLayout from "./components/DashLayout";
 import Profile from "./pages/Profile";
 import MessageList from "./pages/MessageList";
+import Dash from "./pages/Dash";
 
 const router = createBrowserRouter([
   {
@@ -37,8 +38,12 @@ const router = createBrowserRouter([
     element: <DashLayout />,
     children: [
       {
-        element: <MessageList />,
+        element: <Dash />,
         path: "/dash/",
+      },
+      {
+        element: <MessageList />,
+        path: "/dash/messages",
       },
       {
         element: <Profile />,

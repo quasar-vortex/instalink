@@ -3,7 +3,21 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { AuthState, UserPayload } from "../../types";
 
-const initialState: AuthState = { user: null, accessToken: null };
+const mock_user = {
+  id: "1234",
+  firstName: "Billy",
+  lastName: "Bob",
+  email: "billybob@example.com",
+  userName: "billy_bob_91",
+  bio: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, delectus.`,
+  avatarFileId: null,
+  registeredDate: new Date().toISOString(),
+  lastLoginDate: new Date().toISOString(),
+};
+const mockState: AuthState = { user: mock_user, accessToken: "" };
+const initialState: AuthState = !import.meta.env.PROD
+  ? mockState
+  : { user: null, accessToken: null };
 
 export const authSlice = createSlice({
   name: "auth",
@@ -23,7 +37,7 @@ export const authSlice = createSlice({
 export const { setUser, removeUser } = authSlice.actions;
 export const selectIsLoggedIn = (state: RootState) =>
   state.auth.accessToken !== null && state.auth.user !== null;
-export const selectAvatarInfo = (state: RootState) => {
+export const selectUserInfo = (state: RootState) => {
   const payload: Partial<AuthState["user"]> = {
     ...state.auth.user,
   };
