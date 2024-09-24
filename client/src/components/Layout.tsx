@@ -5,8 +5,8 @@ const Layout = () => {
   return (
     <>
       <div className="flex flex-col min-h-screen">
-        <nav className="container">
-          <div className="h-14 flex justify-between items-center">
+        <nav className="border-b-2 ">
+          <div className="h-14 flex justify-between items-center container">
             <div>
               <NavLink
                 to="/"

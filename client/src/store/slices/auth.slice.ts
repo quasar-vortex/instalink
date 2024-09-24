@@ -15,6 +15,7 @@ const mock_user = {
   lastLoginDate: new Date().toISOString(),
 };
 const mockState: AuthState = { user: mock_user, accessToken: "" };
+
 const initialState: AuthState = !import.meta.env.PROD
   ? mockState
   : { user: null, accessToken: null };

@@ -1,8 +1,9 @@
 export type FormField<T> = {
   label: string;
   placeholder: string;
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password" | "textarea";
   name: keyof T;
+  isOptional?: boolean;
 };
 
 export type User = {

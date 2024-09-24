@@ -9,7 +9,6 @@ import {
   FiSettings,
   FiChevronRight,
 } from "react-icons/fi";
-import { FaEllipsisV } from "react-icons/fa";
 import { IconType } from "react-icons/lib";
 const links = [
   {
@@ -41,7 +40,7 @@ const links = [
 
 const SideBar = () => {
   return (
-    <aside className="w-20 bg-slate-200 flex flex-col justify-between border-r-2 border-slate-400">
+    <aside className="w-20  flex flex-col justify-between border-r-2 border-slate-400">
       <div className="flex py-4 justify-center">
         <NavLink
           className="font-bold text-lg text-blue-600 underline-offset-4 underline"
@@ -70,7 +69,7 @@ const SideBar = () => {
   );
 };
 const PlaceHolder = () => {
-  return <div></div>;
+  return <div className="hidden md:flex md:flex-grow w-full bg-red-500"></div>;
 };
 
 type DashLinkProps = {
@@ -84,7 +83,7 @@ const DashLink = (l: DashLinkProps) => {
     <NavLink
       className={({ isActive }) => {
         if (isActive)
-          return "flex [&>span]:text-blue-600 flex-col items-center gap-2 justify-center text-lg bg-slate-300 p-4 text-blue-600  duration-200";
+          return "flex [&>span]:text-blue-600 flex-col items-center gap-2 justify-center text-lg bg-slate-200 p-4 text-blue-600  duration-200";
         else
           return "flex flex-col items-center gap-2 justify-center text-lg text-gray-800 p-4 border border-slate-300  duration-200 hover:bg-slate-300";
       }}
@@ -99,9 +98,9 @@ const DashLink = (l: DashLinkProps) => {
 const DashLayout = () => {
   return (
     <>
-      <div className="flex h-screen">
+      <div className="flex  h-screen overflow-hidden">
         <SideBar />
-        <main className="flex-grow">
+        <main className="flex flex-col  flex-grow max-w-[700px] w-full">
           <Outlet />
         </main>
         <PlaceHolder />

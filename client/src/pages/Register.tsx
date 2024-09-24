@@ -34,7 +34,7 @@ const Register = () => {
     }
   };
   return (
-    <section className="bg-gray-200  flex-1 flex ">
+    <section className="bg-gray-100  flex-1 flex ">
       <div className="flex flex-col items-center justify-center flex-grow py-12">
         <h2 className="font-bold text-4xl mb-4">Register Account</h2>
         <p className="text-gray-700 text-lg mb-4">
