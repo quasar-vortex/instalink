@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { optional } from "zod";
 
 export const baseUserSchema = z.object({
   firstName: z.string().min(2).max(20),
@@ -23,10 +23,10 @@ export type UpdateUserModel = z.infer<typeof updateUserModel>["body"];
 export const updateUserModel = z.object({
   body: baseUserSchema
     .pick({
-      email: true,
       password: true,
     })
     .extend({
+      newUserName: z.string().min(8).max(16).optional(),
       newPassword: z
         .string()
         .regex(/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])).{8,16}$/, {

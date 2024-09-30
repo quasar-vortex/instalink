@@ -11,11 +11,13 @@ export const loginFields: FormField<LoginSchema>[] = [
     placeholder: "Enter your email address...",
     type: "email",
     name: "email",
+    value: !import.meta.env.PROD ? import.meta.env.VITE_EMAIL : undefined,
   },
   {
     label: "Password",
     placeholder: "Enter your password...",
     type: "password",
     name: "password",
+    value: !import.meta.env.PROD ? import.meta.env.VITE_PASSWORD : undefined,
   },
 ];

@@ -8,52 +8,18 @@ import {
 import "./index.css";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-
 import "react-toastify/dist/ReactToastify.css";
-import Login from "./pages/Login";
-import Layout from "./components/Layout";
 import { ToastContainer } from "react-toastify";
-import Register from "./pages/Register";
-import DashLayout from "./components/DashLayout";
-import Profile from "./pages/Profile";
-import MessageList from "./pages/MessageList";
-import Dash from "./pages/Dash";
-import ProfileEdit from "./pages/ProfileEdit";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Layout from "./components/ui/Layout";
 
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
-      {
-        element: <Login />,
-        path: "/",
-        index: true,
-      },
-      {
-        element: <Register />,
-        path: "/register",
-      },
-    ],
-  },
-  {
-    element: <DashLayout />,
-    children: [
-      {
-        element: <Dash />,
-        path: "/dash/",
-      },
-      {
-        element: <MessageList />,
-        path: "/dash/messages",
-      },
-      {
-        element: <Profile />,
-        path: "/dash/profile",
-      },
-      {
-        element: <ProfileEdit />,
-        path: "/dash/profile/edit",
-      },
+      { element: <Landing />, path: "/", index: true },
+      { element: <Login />, path: "/login" },
     ],
   },
   { element: <Navigate to="/" />, path: "*" },

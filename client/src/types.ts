@@ -1,9 +1,17 @@
+export type GenericFormField = {
+  label: string;
+  placeholder: string;
+  type: "text" | "email" | "password" | "textarea";
+  name: string;
+  isOptional?: boolean;
+};
 export type FormField<T> = {
   label: string;
   placeholder: string;
   type: "text" | "email" | "password" | "textarea";
   name: keyof T;
   isOptional?: boolean;
+  value?: string | number;
 };
 
 export type User = {
@@ -67,10 +75,38 @@ export type UploadFileRequest = {
 };
 
 export type UpdateFileRequest = {
-  fileId: string;
   file: File;
 };
 
 export type DeleteFileResponse = {
   message: string;
+};
+
+export type BaseUser = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  email: string;
+  lastLoginDate: string;
+  registeredDate: string;
+  avatarFileId: string | null;
+  bio: string | null;
+};
+
+export type UpdateUserRequest = {
+  email?: string;
+  password: string; // Current password for authentication
+  newPassword?: string;
+  bio?: string;
+  avatarFileId?: string;
+};
+
+export type UpdateUserResponse = BaseUser;
+
+export type GetUserByIdResponse = {
+  id: string;
+  userName: string;
+  avatarFileId: string | null;
+  bio: string | null;
 };

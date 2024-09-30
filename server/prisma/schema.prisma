@@ -33,26 +33,27 @@ model File {
 }
 
 model User {
-  id             String               @id @default(uuid())
-  firstName      String               @db.VarChar(20)
-  lastName       String               @db.VarChar(20)
-  email          String               @unique @db.VarChar(50)
-  userName       String               @unique @db.VarChar(16)
-  passwordHash   String               @db.Text
-  bio            String?              @db.VarChar(200)
-  avatarFile     File?                @relation(name: "avatar-file", fields: [avatarFileId], references: [id], onDelete: Cascade)
-  Uploads        File[]               @relation(name: "file-upload")
-  avatarFileId   String?
-  refreshToken   String?              @db.Text
-  registeredDate DateTime             @default(now())
-  lastLoginDate  DateTime             @default(now())
-  Room           Room[]
-  FriendSender   Friend[]             @relation(name: "friend-sender")
-  FriendReceiver Friend[]             @relation(name: "friend-receiver")
-  Participant    Participant[]
-  MessageSender  Message[]            @relation(name: "message-sender")
-  Conversation1  DirectConversation[] @relation(name: "conversation-participant1")
-  Conversation2  DirectConversation[] @relation(name: "conversation-participant2")
+  id              String               @id @default(uuid())
+  firstName       String               @db.VarChar(20)
+  lastName        String               @db.VarChar(20)
+  email           String               @unique @db.VarChar(50)
+  userName        String               @unique @db.VarChar(16)
+  passwordHash    String               @db.Text
+  onboardComplete Boolean              @default(false)
+  bio             String?              @db.VarChar(200)
+  avatarFile      File?                @relation(name: "avatar-file", fields: [avatarFileId], references: [id], onDelete: Cascade)
+  Uploads         File[]               @relation(name: "file-upload")
+  avatarFileId    String?
+  refreshToken    String?              @db.Text
+  registeredDate  DateTime             @default(now())
+  lastLoginDate   DateTime             @default(now())
+  Room            Room[]
+  FriendSender    Friend[]             @relation(name: "friend-sender")
+  FriendReceiver  Friend[]             @relation(name: "friend-receiver")
+  Participant     Participant[]
+  MessageSender   Message[]            @relation(name: "message-sender")
+  Conversation1   DirectConversation[] @relation(name: "conversation-participant1")
+  Conversation2   DirectConversation[] @relation(name: "conversation-participant2")
 }
 
 model Friend {

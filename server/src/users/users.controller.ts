@@ -50,7 +50,7 @@ export const updateSignedInUserHandler: AuthenticatedRequestHandler = async (
 ) => {
   try {
     const userId = req.user!.id;
-    const { email, password, avatarFileId, bio, newPassword } =
+    const { newUserName, password, avatarFileId, bio, newPassword } =
       req.body as UpdateUserModel;
     const foundUser = await db.user.findUnique({
       where: { id: userId },
@@ -76,6 +76,7 @@ export const updateSignedInUserHandler: AuthenticatedRequestHandler = async (
       avatarFileId: !avatarFileId ? null : foundUser.avatarFileId,
       bio,
       passwordHash: passToSave,
+      userName: newUserName || foundUser.userName,
     };
     const updatedUser = await db.user.update({
       where: { id: userId },
