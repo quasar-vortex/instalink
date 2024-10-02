@@ -17,10 +17,13 @@ export const registerUserHandler: RequestHandler = async (req, res, next) => {
         status: "BAD_REQUEST",
         message: "User exists already.",
       });
+    // Make first upper
+    let fName = firstName.toLowerCase(),
+      lName = lastName.toLowerCase();
     const userPayload = {
       email,
-      firstName,
-      lastName,
+      firstName: fName.charAt(0).toUpperCase() + fName.slice(1),
+      lastName: lName.charAt(0).toUpperCase() + lName.slice(1),
       userName,
       passwordHash: await argon.hash(password),
     };

@@ -13,6 +13,7 @@ const mock_user = {
   avatarFileId: null,
   registeredDate: new Date().toISOString(),
   lastLoginDate: new Date().toISOString(),
+  onboardComplete: false,
 };
 const mockState: AuthState = { user: mock_user, accessToken: "" };
 

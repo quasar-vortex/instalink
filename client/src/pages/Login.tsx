@@ -14,13 +14,11 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
-  const [loginUser, { isError, isSuccess, isLoading }] = useLoginMutation();
+  const [loginUser, { isLoading }] = useLoginMutation();
   const handleUserLogin = async (data: LoginSchema) => {
     try {
       const { accessToken, user } = await loginUser(data).unwrap();
-      toast.success(
-        `Welcome ${user.userName} ${user.firstName} ${user.lastName}`
-      );
+      toast.success(`Welcome ${user.firstName} ${user.lastName}`);
       dispatch(setUser({ accessToken, user }));
       nav("/dash");
     } catch (error) {

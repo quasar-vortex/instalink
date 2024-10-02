@@ -13,6 +13,10 @@ import { ToastContainer } from "react-toastify";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Layout from "./components/ui/Layout";
+import Dash from "./pages/Dash";
+import Profile from "./pages/profile/Profile";
+import DashLayout from "./components/dash/DashLayout";
+import Register from "./pages/Register";
 
 const router = createBrowserRouter([
   {
@@ -20,8 +24,14 @@ const router = createBrowserRouter([
     children: [
       { element: <Landing />, path: "/", index: true },
       { element: <Login />, path: "/login" },
+      { element: <Register />, path: "/register" },
     ],
   },
+  {
+    element: <DashLayout />,
+    children: [{ element: <Profile />, path: "/dash/profile" }],
+  },
+  { element: <Dash />, path: "/dash" },
   { element: <Navigate to="/" />, path: "*" },
 ]);
 

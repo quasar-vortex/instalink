@@ -49,3 +49,11 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.logo-text {
+    text-shadow: 1px 1px black;
+    @apply text-lg text-blue-600 font-bold duration-200 ;
+}
+.logo-text:hover {
+    @apply text-indigo-700;
+}

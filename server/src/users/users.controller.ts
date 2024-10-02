@@ -29,7 +29,7 @@ export const getSignedInUserInfoHandler: AuthenticatedRequestHandler = async (
     const userId = req.user!.id;
     const userInfo = await db.user.findUnique({
       where: { id: userId },
-      select: baseUserSelect,
+      select: { ...baseUserSelect, onboardComplete: true },
     });
     // user has been authenticated, account should exist
     if (!userInfo)

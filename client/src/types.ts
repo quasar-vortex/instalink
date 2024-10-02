@@ -24,6 +24,7 @@ export type User = {
   avatarFileId: string | null;
   registeredDate: string;
   lastLoginDate: string;
+  onboardComplete: boolean;
 };
 
 export type UserPayload = {
