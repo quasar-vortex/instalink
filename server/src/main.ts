@@ -52,7 +52,9 @@ const truncateFiles = async () => {
 const main = async () => {
   try {
     await db.$connect();
-
+    if (appConfig.node_env.toLocaleLowerCase() !== "production") {
+      await truncateFiles();
+    }
     app.listen(appConfig.port, () =>
       console.log(`Server Running on Port: ${appConfig.port}`)
     );

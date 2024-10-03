@@ -159,7 +159,7 @@ const EditProfile = () => {
   const [handleUpdate] = useUpdateMeMutation();
   const handleProfileUpdate = async (data: Partial<UpdateUserSchema>) => {
     try {
-      const payload = { ...data, email } as UpdateUserSchema;
+      const payload = { ...data, email, avatarFileId } as UpdateUserSchema;
       const updatedUser = await handleUpdate(payload).unwrap();
       dispatch(updateUserInfo(updatedUser));
       toast.success("Profile Updated");
