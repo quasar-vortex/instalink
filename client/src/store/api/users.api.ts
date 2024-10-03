@@ -32,6 +32,21 @@ export const userApiSlice = createApi({
       invalidatesTags: (result) =>
         result ? [{ type: "User", id: result.id }] : [],
     }),
+    updateAvatar: builder.mutation<
+      UpdateUserResponse,
+      { avatarFileId: string }
+    >({
+      query: (updateData) => ({
+        url: "/users/me/avatar",
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: updateData,
+      }),
+      invalidatesTags: (result) =>
+        result ? [{ type: "User", id: result.id }] : [],
+    }),
 
     // Fetch a user by ID
     getUserById: builder.query<GetUserByIdResponse, string>({
@@ -41,5 +56,9 @@ export const userApiSlice = createApi({
   }),
 });
 
-export const { useGetMeQuery, useUpdateMeMutation, useGetUserByIdQuery } =
-  userApiSlice;
+export const {
+  useGetMeQuery,
+  useUpdateMeMutation,
+  useGetUserByIdQuery,
+  useUpdateAvatarMutation,
+} = userApiSlice;

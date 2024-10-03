@@ -11,12 +11,13 @@ import { store } from "./store/store";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Landing from "./pages/Landing";
-import Login from "./pages/Login";
+import Login from "./pages/auth/Login";
 import Layout from "./components/ui/Layout";
 import Dash from "./pages/Dash";
 import Profile from "./pages/profile/Profile";
 import DashLayout from "./components/dash/DashLayout";
-import Register from "./pages/Register";
+import Register from "./pages/auth/Register";
+import EditProfile from "./pages/profile/EditProfile";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,10 @@ const router = createBrowserRouter([
   },
   {
     element: <DashLayout />,
-    children: [{ element: <Profile />, path: "/dash/profile" }],
+    children: [
+      { element: <Profile />, path: "/dash/profile" },
+      { element: <EditProfile />, path: "/dash/profile/edit" },
+    ],
   },
   { element: <Dash />, path: "/dash" },
   { element: <Navigate to="/" />, path: "*" },

@@ -36,10 +36,10 @@ body {
    
 }
 
-#portal {
+#loadPortal, #modal {
     display: none;
 }
-#portal.active {
+#loadPortal.active, #modal.active {
     display: flex;
     position: fixed;
     top: 0;
@@ -57,3 +57,4 @@ body {
 .logo-text:hover {
     @apply text-indigo-700;
 }
+

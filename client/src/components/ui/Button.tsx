@@ -8,6 +8,7 @@ type ButtonProps = {
   type?: "button" | "reset" | "submit";
   disabled?: boolean;
   onClick?: () => void;
+  noPad?: boolean;
 };
 const Button = ({
   bgColor = "blue",
@@ -15,6 +16,7 @@ const Button = ({
   children,
   disabled = false,
   className,
+  noPad = false,
   ...rest
 }: ButtonProps) => {
   return (
@@ -22,7 +24,8 @@ const Button = ({
       disabled={disabled}
       type={type}
       className={clsx({
-        "px-4 py-2 text-gray-200 duration-200": true,
+        "px-4 py-2": !noPad,
+        "text-gray-200 duration-200": true,
         "bg-blue-600 hover:bg-blue-700": bgColor === "blue",
         "bg-red-600 hover:bg-red-700": bgColor === "red",
         "bg-indigo-600 hover:bg-indigo-700": bgColor === "indigo",

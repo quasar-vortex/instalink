@@ -24,7 +24,7 @@ export const registerUserHandler: RequestHandler = async (req, res, next) => {
       email,
       firstName: fName.charAt(0).toUpperCase() + fName.slice(1),
       lastName: lName.charAt(0).toUpperCase() + lName.slice(1),
-      userName,
+      userName: userName.toLowerCase(),
       passwordHash: await argon.hash(password),
     };
     const newUser = await db.user.create({

@@ -50,7 +50,7 @@ export const updateSignedInUserHandler: AuthenticatedRequestHandler = async (
 ) => {
   try {
     const userId = req.user!.id;
-    const { newUserName, password, avatarFileId, bio, newPassword } =
+    const { userName, password, avatarFileId, bio, newPassword } =
       req.body as UpdateUserModel;
     const foundUser = await db.user.findUnique({
       where: { id: userId },
@@ -76,12 +76,12 @@ export const updateSignedInUserHandler: AuthenticatedRequestHandler = async (
       avatarFileId: !avatarFileId ? null : foundUser.avatarFileId,
       bio,
       passwordHash: passToSave,
-      userName: newUserName || foundUser.userName,
+      userName: userName.toLowerCase(),
     };
     const updatedUser = await db.user.update({
       where: { id: userId },
       data: payload,
-      select: baseUserSelect,
+      select: { ...baseUserSelect, onboardComplete: true },
     });
     return res.status(200).json(updatedUser);
   } catch (error) {
@@ -89,6 +89,30 @@ export const updateSignedInUserHandler: AuthenticatedRequestHandler = async (
   }
 };
 
+export const updateSignedInAvatar: AuthenticatedRequestHandler = async (
+  req,
+  res,
+  next
+) => {
+  try {
+    const avatarFileId = req.body?.avatarFileId;
+    if (!avatarFileId)
+      throw new HttpError({
+        status: "BAD_REQUEST",
+        message: "Avatar File Id Required",
+      });
+    const userId = req.user!.id;
+
+    const updatedUser = await db.user.update({
+      where: { id: userId },
+      data: { avatarFileId },
+      select: { ...baseUserSelect, onboardComplete: true },
+    });
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+};
 export const getUserByIdHandler: RequestHandler = async (req, res, next) => {
   try {
     const userId = req.params.id as string;

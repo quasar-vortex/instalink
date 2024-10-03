@@ -1,20 +1,21 @@
-import Container from "../components/ui/Container";
-import Card from "../components/ui/Card";
-import Form from "../components/ui/form/Form";
-import userLoginSchema, { loginFields, LoginSchema } from "../models/login";
-import { FormField } from "../types";
+import Container from "../../components/ui/Container";
+import Card from "../../components/ui/Card";
+import Form from "../../components/ui/form/Form";
+import userLoginSchema, { loginFields, LoginSchema } from "../../models/login";
+import { FormField } from "../../types";
 import { FieldValues } from "react-hook-form";
-import { useLoginMutation } from "../store/api/auth.api";
+import { useLoginMutation } from "../../store/api/auth.api";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { setUser } from "../store/slices/auth.slice";
-import Loader from "../components/ui/Loader";
+import { setUser } from "../../store/slices/auth.slice";
+
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Login = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
-  const [loginUser, { isLoading }] = useLoginMutation();
+  const [loginUser] = useLoginMutation();
   const handleUserLogin = async (data: LoginSchema) => {
     try {
       const { accessToken, user } = await loginUser(data).unwrap();
@@ -30,16 +31,19 @@ const Login = () => {
 
   return (
     <>
-      {isLoading && <Loader />}
-      <section className="flex-grow flex">
+      <section className="flex-grow flex py-12">
         <Container className="p-4 w-full flex flex-col  justify-center items-center">
           <div className="text-center mb-4">
             <h2 className="text-4xl font-bold mb-2">Login to Account</h2>
             <p className="text-gray-700 text-lg">Login to start messaging.</p>
           </div>
 
-          <Card className="max-auto max-w-md w-full">
+          <Card className="max-auto max-w-md w-full mb-4">
             <Form
+              defaultValues={{
+                email: import.meta.env.VITE_EMAIL,
+                password: import.meta.env.VITE_PASSWORD,
+              }}
               fields={loginFields as FormField<FieldValues>[]}
               schema={userLoginSchema}
               onSubmit={
@@ -47,6 +51,12 @@ const Login = () => {
               }
             />
           </Card>
+          <NavLink
+            to="/register"
+            className="underline text-gray-600 hover:text-gray-900 duration-200"
+          >
+            Need an account?
+          </NavLink>
         </Container>
       </section>
     </>

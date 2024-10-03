@@ -13,7 +13,7 @@ const DashPanel = ({
 }) => {
   return (
     <section className="flex-1 w-full  flex flex-col overflow-y-hidden">
-      <div className="p-4 flex justify-between w-full border-b-2 border-gray-400">
+      <div className="p-4 flex items-center justify-between w-full border-b-2 border-gray-400">
         <h2 className="text-xl font-bold">{title}</h2>
         <div className="flex gap-4">{headerActions}</div>
       </div>

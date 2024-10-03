@@ -8,10 +8,14 @@ export type GenericFormField = {
 export type FormField<T> = {
   label: string;
   placeholder: string;
-  type: "text" | "email" | "password" | "textarea";
+  type: "text" | "email" | "password" | "textarea" | "checkbox";
   name: keyof T;
   isOptional?: boolean;
   value?: string | number;
+  dependsOn?: {
+    field: string;
+    value: boolean;
+  };
 };
 
 export type User = {
@@ -83,20 +87,10 @@ export type DeleteFileResponse = {
   message: string;
 };
 
-export type BaseUser = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  email: string;
-  lastLoginDate: string;
-  registeredDate: string;
-  avatarFileId: string | null;
-  bio: string | null;
-};
+export type BaseUser = User;
 
 export type UpdateUserRequest = {
-  email?: string;
+  userName: string;
   password: string; // Current password for authentication
   newPassword?: string;
   bio?: string;

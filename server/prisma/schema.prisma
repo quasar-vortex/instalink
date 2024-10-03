@@ -41,7 +41,7 @@ model User {
   passwordHash    String               @db.Text
   onboardComplete Boolean              @default(false)
   bio             String?              @db.VarChar(200)
-  avatarFile      File?                @relation(name: "avatar-file", fields: [avatarFileId], references: [id], onDelete: Cascade)
+  avatarFile      File?                @relation(name: "avatar-file", fields: [avatarFileId], references: [id])
   Uploads         File[]               @relation(name: "file-upload")
   avatarFileId    String?
   refreshToken    String?              @db.Text

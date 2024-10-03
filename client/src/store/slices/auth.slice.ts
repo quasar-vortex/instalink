@@ -17,9 +17,7 @@ const mock_user = {
 };
 const mockState: AuthState = { user: mock_user, accessToken: "" };
 
-const initialState: AuthState = !import.meta.env.PROD
-  ? mockState
-  : { user: null, accessToken: null };
+const initialState: AuthState = { user: null, accessToken: null };
 
 export const authSlice = createSlice({
   name: "auth",
@@ -33,10 +31,21 @@ export const authSlice = createSlice({
       state.user = null;
       state.accessToken = null;
     },
+    updateAvatarId: (state, action: PayloadAction<{ id: string | null }>) => {
+      if (!state.user) return;
+      state.user!.avatarFileId = action.payload.id;
+    },
+    updateUserInfo: (
+      state,
+      action: PayloadAction<Pick<UserPayload, "user">["user"]>
+    ) => {
+      state.user = action.payload;
+    },
   },
 });
 
-export const { setUser, removeUser } = authSlice.actions;
+export const { setUser, removeUser, updateAvatarId, updateUserInfo } =
+  authSlice.actions;
 export const selectIsLoggedIn = (state: RootState) =>
   state.auth.accessToken !== null && state.auth.user !== null;
 export const selectUserInfo = (state: RootState) => {
@@ -45,4 +54,5 @@ export const selectUserInfo = (state: RootState) => {
   };
   return payload;
 };
+export const selectToken = (state: RootState) => state.auth.accessToken;
 export default authSlice.reducer;

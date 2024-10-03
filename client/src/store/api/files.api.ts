@@ -22,9 +22,6 @@ export const fileApiSlice = createApi({
           url: "/files/",
           method: "POST",
           body: formData,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
         };
       },
       invalidatesTags: ["File"],
@@ -42,9 +39,6 @@ export const fileApiSlice = createApi({
           url: `/files/${fileId}`,
           method: "PATCH",
           body: formData,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
         };
       },
       invalidatesTags: (result, error, { fileId }) => [

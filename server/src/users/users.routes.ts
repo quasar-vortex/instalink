@@ -14,4 +14,5 @@ usersRouter
     validationMiddleware(updateUserModel),
     userController.updateSignedInUserHandler
   )
+  .patch("/me/avatar", authMiddleware, userController.updateSignedInAvatar)
   .get("/:id", authMiddleware, userController.getUserByIdHandler);
