@@ -1,16 +1,16 @@
-import Container from "../../components/ui/Container";
-import Card from "../../components/ui/Card";
-import Form from "../../components/ui/form/Form";
+import Container from "../../ui/Container";
+import Card from "../../ui/Card";
+import Form from "../../ui/form/Form";
 import userRegisterSchema, {
   RegisterSchema,
   registerFields,
-} from "../../models/register";
-import { FormField } from "../../types";
+} from "../models/register";
+import { FormField } from "../../../types";
 import { FieldValues } from "react-hook-form";
-import { useRegisterMutation } from "../../store/api/auth.api";
+import { useRegisterMutation } from "../../../store/api/auth.api";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { setUser } from "../../store/slices/auth.slice";
+import { setUser } from "../../../store/slices/auth.slice";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 

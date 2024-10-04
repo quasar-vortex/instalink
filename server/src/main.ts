@@ -11,6 +11,7 @@ import { filesRouter } from "./files/files.router";
 import { usersRouter } from "./users/users.routes";
 import { s3Client } from "./middleware/upload.middleware";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { friendsRouter } from "./friends/friends.routes";
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -24,6 +25,7 @@ const io = new Server(server);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/files", filesRouter);
+app.use("/api/v1/friends", friendsRouter);
 
 app.use(errorMiddleware);
 
@@ -52,9 +54,11 @@ const truncateFiles = async () => {
 const main = async () => {
   try {
     await db.$connect();
+    /* 
     if (appConfig.node_env.toLocaleLowerCase() !== "production") {
       await truncateFiles();
     }
+    */
     app.listen(appConfig.port, () =>
       console.log(`Server Running on Port: ${appConfig.port}`)
     );

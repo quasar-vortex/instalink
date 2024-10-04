@@ -10,14 +10,15 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import Landing from "./pages/Landing";
-import Login from "./pages/auth/Login";
-import Layout from "./components/ui/Layout";
-import Dash from "./pages/Dash";
-import Profile from "./pages/profile/Profile";
-import DashLayout from "./components/dash/DashLayout";
-import Register from "./pages/auth/Register";
-import EditProfile from "./pages/profile/EditProfile";
+import Landing from "./features/landing/Landing";
+import Login from "./features/auth/pages/Login";
+import Layout from "./features/ui/Layout";
+import Dash from "./features/dash/Dash";
+import Profile from "./features/profile/pages/Profile";
+import DashLayout from "./features/dash/components/DashLayout";
+import Register from "./features/auth/pages/Register";
+import EditProfile from "./features/profile/pages/EditProfile";
+import FriendsList from "./features/friends/pages/FriendsList";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
     children: [
       { element: <Profile />, path: "/dash/profile" },
       { element: <EditProfile />, path: "/dash/profile/edit" },
+      { element: <FriendsList />, path: "/dash/friends" },
     ],
   },
   { element: <Dash />, path: "/dash" },

@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
-import Avatar from "../../components/ui/Avatar";
-import Button from "../../components/ui/Button";
+import Avatar from "../../ui/Avatar";
+import Button from "../../ui/Button";
 import { FiPenTool } from "react-icons/fi";
-import { selectUserInfo } from "../../store/slices/auth.slice";
-import DashPanel from "../../components/dash/DashPanel";
+import { selectUserInfo } from "../../../store/slices/auth.slice";
+import DashPanel from "../../dash/components/DashPanel";
 import { useNavigate } from "react-router-dom";
-import { useGetFileQuery } from "../../store/api/files.api";
+import { useGetFileQuery } from "../../../store/api/files.api";
 
 const Profile = () => {
   const {

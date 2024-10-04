@@ -123,6 +123,7 @@ export const getUserByIdHandler: RequestHandler = async (req, res, next) => {
         userName: true,
         avatarFileId: true,
         bio: true,
+        lastLoginDate: true,
       },
     });
 

@@ -105,3 +105,15 @@ export type GetUserByIdResponse = {
   avatarFileId: string | null;
   bio: string | null;
 };
+
+export type Friend = {
+  id: string;
+  userName: string;
+  avatarUrl: string | null;
+  bio: string | null;
+};
+export type PaginationMeta = {
+  totalRecords: number;
+  currentPage: number;
+  totalPages: number;
+};

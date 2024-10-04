@@ -1,9 +1,9 @@
-import Button from "../ui/Button";
+import Button from "../../ui/Button";
 import { FiChevronRight } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { useLogOffMutation } from "../../store/api/auth.api";
+import { useLogOffMutation } from "../../../store/api/auth.api";
 import { toast } from "react-toastify";
-import { removeUser } from "../../store/slices/auth.slice";
+import { removeUser } from "../../../store/slices/auth.slice";
 import { useNavigate } from "react-router-dom";
 
 const LogOutButton = () => {

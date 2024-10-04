@@ -1,5 +1,5 @@
 import SideBar from "./SideBar";
-import Protected from "../ui/Protected";
+import Protected from "../../ui/Protected";
 const DashLayout = () => {
   return (
     <>

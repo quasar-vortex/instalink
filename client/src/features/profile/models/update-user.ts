@@ -1,5 +1,5 @@
-import { FormField } from "../types";
-import baseUserSchema from "./user";
+import { FormField } from "../../../types";
+import baseUserSchema from "../../auth/models/user";
 import z from "zod";
 
 const updateUserSchema = baseUserSchema.pick({ password: true }).extend({

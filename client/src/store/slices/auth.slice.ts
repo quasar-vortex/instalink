@@ -3,6 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 import { AuthState, UserPayload } from "../../types";
 
+/*
 const mock_user = {
   id: "1234",
   firstName: "Billy",
@@ -17,6 +18,7 @@ const mock_user = {
 };
 const mockState: AuthState = { user: mock_user, accessToken: "" };
 
+*/
 const initialState: AuthState = { user: null, accessToken: null };
 
 export const authSlice = createSlice({

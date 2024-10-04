@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { selectUserInfo } from "../store/slices/auth.slice";
+import { selectUserInfo } from "../../store/slices/auth.slice";
 import { Navigate } from "react-router-dom";
 
 const Dash = () => {

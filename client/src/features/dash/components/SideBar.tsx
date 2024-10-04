@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import LogOutButton from "./LogOutButton";
-import { FiUser, FiLayers, FiMessageSquare } from "react-icons/fi";
-import Logo from "../ui/Logo";
+import { FiUser, FiLayers, FiMessageSquare, FiUsers } from "react-icons/fi";
+import Logo from "../../ui/Logo";
 const links = [
   {
     label: "Profile",
@@ -17,6 +17,11 @@ const links = [
     label: "Rooms",
     to: "/dash/rooms",
     icon: FiLayers,
+  },
+  {
+    label: "Friends",
+    to: "/dash/friends",
+    icon: FiUsers,
   },
 ];
 const SideBar = () => {

@@ -57,15 +57,13 @@ model User {
 }
 
 model Friend {
-  sender                      User      @relation(name: "friend-sender", fields: [senderId], references: [id], onDelete: Cascade)
-  senderId                    String
-  receiver                    User      @relation(name: "friend-receiver", fields: [receiverId], references: [id], onDelete: Cascade)
-  receiverId                  String
-  isActive                    Boolean
-  dateSent                    DateTime  @default(now())
-  dateResponded               DateTime?
-  isSenderBlockedFromReceiver Boolean   @default(false)
-  isReceiverBlockeFromSender  Boolean   @default(false)
+  sender        User      @relation(name: "friend-sender", fields: [senderId], references: [id], onDelete: Cascade)
+  senderId      String
+  receiver      User      @relation(name: "friend-receiver", fields: [receiverId], references: [id], onDelete: Cascade)
+  receiverId    String
+  isActive      Boolean   @default(false)
+  dateSent      DateTime  @default(now())
+  dateResponded DateTime?
 
   @@id([senderId, receiverId])
 }

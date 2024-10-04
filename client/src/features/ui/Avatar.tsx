@@ -24,7 +24,10 @@ const AvatarBase = ({
           "h-16 w-16": size === "lg",
         })}
       >
-        <img src={imgUrl} alt={userName + " avatar"} />
+        <img
+          src={imgUrl || "https://placehold.co/400"}
+          alt={userName + " avatar"}
+        />
       </div>
       {userName && (
         <p
@@ -50,7 +53,7 @@ type AvatarProps = {
   isClickable?: boolean;
   userId: string;
   userName?: string;
-  imgUrl: string;
+  imgUrl?: string | null;
   size?: "sm" | "md" | "lg";
   direction?: "row" | "column";
   bio?: string;

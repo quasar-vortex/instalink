@@ -1,4 +1,4 @@
-import { FormField } from "../types";
+import { FormField } from "../../../types";
 import baseUserSchema from "./user";
 import z from "zod";
 const userLoginSchema = baseUserSchema.pick({ email: true, password: true });
