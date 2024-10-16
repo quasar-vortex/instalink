@@ -44,12 +44,14 @@ export const loginFields: FormField<LoginUserSchema>[] = [
     label: "Email",
     placeholder: "Enter your email...",
     name: "email",
+    defaultValue: !import.meta.env.PROD ? import.meta.env.VITE_EMAIL : "",
   },
   {
     type: "password",
     label: "Password",
     placeholder: "Enter your password...",
     name: "password",
+    defaultValue: !import.meta.env.PROD ? import.meta.env.VITE_PASSWORD : "",
   },
 ];
 export const registerFields: FormField<RegisterUserSchema>[] = [

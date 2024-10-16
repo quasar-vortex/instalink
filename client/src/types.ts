@@ -22,4 +22,5 @@ export type FormField<T extends object> = {
   placeholder: string;
   label: string;
   type: "text" | "email" | "password" | "textarea";
+  defaultValue?: string;
 };

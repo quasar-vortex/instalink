@@ -1,11 +1,3 @@
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -30,14 +22,21 @@ import { NavLink } from "react-router-dom";
 const LoginPage = () => {
   const nav = useNavigate();
   const dis = useDispatch();
+
+  const defaultValues = loginFields.reduce((acc, field) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    acc[field.name] = field.defaultValue || "";
+    return acc;
+  }, {});
+
   const form = useForm<LoginUserSchema>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues, // Use the default values
   });
+
   const [loginUser] = useLoginUserMutation();
+
   const onSubmit = async (data: LoginUserSchema) => {
     try {
       const { user, accessToken } = await loginUser(data).unwrap();
@@ -47,36 +46,7 @@ const LoginPage = () => {
       console.log(error);
     }
   };
-  const renderFields = () =>
-    loginFields.map((f) => {
-      return (
-        <FormField
-          key={f.name}
-          control={form.control}
-          name={f.name}
-          render={({ field }) => {
-            return (
-              <FormItem className="flex flex-col mb-4">
-                <FormLabel className="font-semibold">{f.label}</FormLabel>
-                <FormControl className="p-1 indent-1 rounded-md border-2 border-gray-300 focus:border-gray-500 duration-200 outline-none">
-                  {f.type === "textarea" ? (
-                    <textarea placeholder={f.placeholder} {...field} />
-                  ) : (
-                    <input
-                      type={f.type}
-                      placeholder={f.placeholder}
-                      {...field}
-                    />
-                  )}
-                </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-      );
-    });
   return (
     <section className="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center py-12">
       <div className="container">
@@ -88,17 +58,41 @@ const LoginPage = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col"
-              >
-                {renderFields()}
-                <Button className="mx-auto font-bold text-lg" type="submit">
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              {loginFields.map((f) => {
+                return (
+                  <div key={f.label} className="mb-4">
+                    <label className="block mb-2" htmlFor={f.name}>
+                      {f.label}
+                    </label>
+                    {f.type === "textarea" ? (
+                      <textarea
+                        className="outline-none border-2 border-zinc-300 focus:border-zinc-500 duration-200 rounded-sm indent-2 py-1 w-full"
+                        placeholder={f.placeholder}
+                        {...form.register(f.name)}
+                      />
+                    ) : (
+                      <input
+                        className="outline-none border-2 border-zinc-300 focus:border-zinc-500 duration-200 rounded-sm indent-2 py-1 w-full"
+                        type={f.type}
+                        placeholder={f.placeholder}
+                        {...form.register(f.name)}
+                      />
+                    )}
+                    {form.formState.errors[f.name]?.message && (
+                      <p className="text-red-600 font-bold text-sm mt-2">
+                        {form.formState.errors[f.name]?.message}{" "}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+              <div className="flex justify-center">
+                <Button className="text-lg font-bold" type="submit">
                   Login
                 </Button>
-              </form>
-            </Form>
+              </div>
+            </form>
           </CardContent>
         </Card>
         <div className="flex justify-center">

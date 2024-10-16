@@ -1,11 +1,3 @@
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -30,18 +22,21 @@ import { NavLink } from "react-router-dom";
 const RegisterPage = () => {
   const nav = useNavigate();
   const dis = useDispatch();
+
+  const defaultValues = registerFields.reduce((acc, field) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    acc[field.name] = field.defaultValue || "";
+    return acc;
+  }, {});
+
   const form = useForm<RegisterUserSchema>({
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      userName: "",
-    },
+    defaultValues, // Use the default values
   });
+
   const [registerUser] = useRegisterUserMutation();
+
   const onSubmit = async (data: RegisterUserSchema) => {
     try {
       const { user, accessToken } = await registerUser(data).unwrap();
@@ -51,36 +46,7 @@ const RegisterPage = () => {
       console.log(error);
     }
   };
-  const renderFields = () =>
-    registerFields.map((f) => {
-      return (
-        <FormField
-          key={f.name}
-          control={form.control}
-          name={f.name}
-          render={({ field }) => {
-            return (
-              <FormItem className="flex flex-col mb-4">
-                <FormLabel className="font-semibold">{f.label}</FormLabel>
-                <FormControl className="p-1 indent-1 rounded-md border-2 border-gray-300 focus:border-gray-500 duration-200 outline-none">
-                  {f.type === "textarea" ? (
-                    <textarea placeholder={f.placeholder} {...field} />
-                  ) : (
-                    <input
-                      type={f.type}
-                      placeholder={f.placeholder}
-                      {...field}
-                    />
-                  )}
-                </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            );
-          }}
-        />
-      );
-    });
   return (
     <section className="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center py-12">
       <div className="container">
@@ -88,29 +54,53 @@ const RegisterPage = () => {
           <CardHeader className="text-center ">
             <CardTitle className="text-3xl">Register</CardTitle>
             <CardDescription className="text-lg">
-              Register to begin messaging.
+              Register an account to begin messaging.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col"
-              >
-                {renderFields()}
-                <Button className="mx-auto font-bold text-lg" type="submit">
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              {registerFields.map((f) => {
+                return (
+                  <div key={f.label} className="mb-4">
+                    <label className="block mb-2" htmlFor={f.name}>
+                      {f.label}
+                    </label>
+                    {f.type === "textarea" ? (
+                      <textarea
+                        className="outline-none border-2 border-zinc-300 focus:border-zinc-500 duration-200 rounded-sm indent-2 py-1 w-full"
+                        placeholder={f.placeholder}
+                        {...form.register(f.name)}
+                      />
+                    ) : (
+                      <input
+                        className="outline-none border-2 border-zinc-300 focus:border-zinc-500 duration-200 rounded-sm indent-2 py-1 w-full"
+                        type={f.type}
+                        placeholder={f.placeholder}
+                        {...form.register(f.name)}
+                      />
+                    )}
+                    {form.formState.errors[f.name]?.message && (
+                      <p className="text-red-600 font-bold text-sm mt-2">
+                        {form.formState.errors[f.name]?.message}{" "}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
+              <div className="flex justify-center">
+                <Button className="text-lg font-bold" type="submit">
                   Register
                 </Button>
-              </form>
-            </Form>
+              </div>
+            </form>
           </CardContent>
         </Card>
         <div className="flex justify-center">
           <NavLink
             className="text-center underline inline-block text-gray-600 hover:text-gray-800"
-            to="/login"
+            to="/register"
           >
-            Have an account?
+            Need an account?
           </NavLink>
         </div>
       </div>
