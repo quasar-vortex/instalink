@@ -1,0 +1,170 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum FileType {
+  AUDIO
+  IMAGE
+  VIDEO
+}
+
+model File {
+  fileId       String    @id @default(uuid())
+  fileType     FileType  @default(IMAGE)
+  url          String    @unique @db.VarChar(255)
+  key          String    @unique @db.VarChar(36)
+  originalName String    @db.VarChar(50)
+  size         Int
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now())
+  uploader     User      @relation(name: "File-Uploader", fields: [uploaderId], references: [userId])
+  uploaderId   String
+  User         User[]    @relation(name: "User-Avatar")
+  Message      Message[]
+}
+
+enum UserVisibility {
+  HIDDEN
+  VISIBLE
+}
+
+model User {
+  userId               String                 @id @default(uuid())
+  userName             String                 @unique @db.VarChar(50)
+  email                String                 @unique @db.VarChar(50)
+  firstName            String                 @db.VarChar(20)
+  lastName             String                 @db.VarChar(20)
+  passwordHash         String                 @db.VarChar(255)
+  avatarFileId         String?
+  statusVisibility     UserVisibility         @default(VISIBLE)
+  lastActive           DateTime               @default(now())
+  bio                  String?                @db.VarChar(200)
+  notificationsEnabled Boolean                @default(true)
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @default(now())
+  refreshToken         String?                @unique @db.VarChar(255)
+  avatar               File?                  @relation(name: "User-Avatar", fields: [avatarFileId], references: [fileId])
+  File                 File[]                 @relation(name: "File-Uploader")
+  Room                 Room[]
+  RoomMember           RoomMember[]
+  FromUserRequest      FriendRequest[]        @relation(name: "From-User")
+  ToUserRequest        FriendRequest[]        @relation(name: "To-User")
+  ConversationMember   ConversationMember[]
+  Message              Message[]
+  ConversationSettings ConversationSettings[]
+  Notifications        Notifications[]
+}
+
+model Room {
+  roomId       String         @id @default(uuid())
+  name         String         @db.VarChar(100)
+  description  String?        @db.Text
+  isPrivate    Boolean        @default(false)
+  owner        User           @relation(fields: [ownerId], references: [userId], onDelete: Cascade)
+  ownerId      String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @default(now())
+  Conversation Conversation[]
+}
+
+enum RoomRole {
+  OWNER
+  MEMBER
+}
+
+model RoomMember {
+  roomId   String
+  user     User     @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId   String
+  role     RoomRole @default(MEMBER)
+  joinedAt DateTime @default(now())
+
+  @@id([roomId, userId])
+}
+
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model FriendRequest {
+  requestId  String              @id @default(uuid())
+  from_user  User                @relation(name: "From-User", fields: [fromUserId], references: [userId], onDelete: Cascade)
+  fromUserId String
+  to_user    User                @relation(name: "To-User", fields: [toUserId], references: [userId], onDelete: Cascade)
+  toUserId   String
+  status     FriendRequestStatus @default(PENDING)
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @default(now())
+}
+
+model Conversation {
+  conversationId       String                 @id @default(uuid())
+  isDirectConversation Boolean                @default(false)
+  room                 Room?                  @relation(fields: [roomId], references: [roomId], onDelete: SetNull)
+  roomId               String?
+  createdAt            DateTime               @default(now())
+  Message              Message[]
+  ConversationSettings ConversationSettings[]
+}
+
+model ConversationMember {
+  conversationId String
+  user           User   @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId         String
+
+  @@id([userId, conversationId])
+}
+
+model Message {
+  message_id     String       @id @default(uuid())
+  conversation   Conversation @relation(fields: [conversationId], references: [conversationId], onDelete: Cascade)
+  conversationId String
+  sender         User         @relation(fields: [senderId], references: [userId], onDelete: Cascade)
+  senderId       String
+  content        String       @db.Text
+  file           File?        @relation(fields: [fileId], references: [fileId], onDelete: Cascade)
+  fileId         String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @default(now())
+  isDeleted      Boolean      @default(false)
+}
+
+model ConversationSettings {
+  user                  User         @relation(fields: [userId], references: [userId], onDelete: Cascade)
+  userId                String
+  conversation          Conversation @relation(fields: [conversationId], references: [conversationId], onDelete: Cascade)
+  conversationId        String
+  is_muted              Boolean      @default(false)
+  notifications_enabled Boolean      @default(true)
+
+  @@id([userId, conversationId])
+}
+
+enum NotificationType {
+  MESSAGE
+  FRIEND_REQUEST
+  ROOM_INVITATION
+}
+
+model Notifications {
+  notification_id String           @id @default(uuid())
+  user            User             @relation(fields: [userId], references: [userId])
+  userId          String
+  type            NotificationType @default(MESSAGE)
+  content         String           @db.Text
+  isRead          Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+}
