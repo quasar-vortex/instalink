@@ -1,3 +1,4 @@
+import { RootState } from "@/store/store";
 import { AuthState, User } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
@@ -28,3 +29,6 @@ export const authSlice = createSlice({
 export const { setUser, removeUser } = authSlice.actions;
 
 export default authSlice.reducer;
+
+export const selectIsSignedIn = (state: RootState) =>
+  typeof state.auth.accessToken === "string";

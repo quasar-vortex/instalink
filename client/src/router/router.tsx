@@ -11,9 +11,11 @@ import LoginPage from "@/pages/auth/LoginPage";
 import { ToastContainer } from "react-toastify";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import DashLayout from "@/layouts/DashLayout";
+import { useSelector } from "react-redux";
+import { selectIsSignedIn } from "@/features/auth/authSlice";
 const PrivateRoute = ({ element }: { element: JSX.Element }) => {
-  const isAuthenticated = false; // Replace with actual auth logic
-  return isAuthenticated ? element : <Navigate to="/auth" />;
+  const isAuthenticated = useSelector(selectIsSignedIn);
+  return isAuthenticated ? element : <Navigate to="/login" />;
 };
 
 const router = createBrowserRouter([
@@ -38,7 +40,10 @@ const router = createBrowserRouter([
   },
   {
     element: <PrivateRoute element={<DashLayout />} />,
-    children: [{ path: "/dash/profile" }],
+    children: [
+      { path: "/dash", element: <Navigate to="/dash/profile" /> },
+      { path: "/dash/profile" },
+    ],
   },
   {
     path: "*",

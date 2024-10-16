@@ -20,7 +20,7 @@ export const authApi = createApi({
         body: userInfo,
       }),
     }),
-    logOffUser: b.query<{ message: string }, void>({
+    logOffUser: b.query<{ message: string }, null | void>({
       query: () => ({
         method: "GET",
         url: "/auth/logoff",
